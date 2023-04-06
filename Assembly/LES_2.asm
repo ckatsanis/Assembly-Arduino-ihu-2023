@@ -1,8 +1,6 @@
 ; multi-segment executable file template.
 
 data segment
-    N1 db 48
-    N2 db 57
     msg1 db "Dwse enan arithmo toy dekadikou: ", 10, 13, "$" 
     msg2 db "O arithmos einai 0", 10, 13, "$"
     msg3 db "O Arithmos einai Peritos", 10, 13, "$"
@@ -25,21 +23,19 @@ begin:
         
         mov ah, 08h    ; eisagwgh apo pliktrologio me 8h klhsh tou dos
         int 21h
-              
-        mov ah, al      
-        add ah, 48     
-        cmp ah, N1     ; elenxos an einai mikroteros tou 0                          
+                   
+        add al, 48     
+        cmp al, '0'     ; elenxos an einai mikroteros tou 0                          
         jbe start      
         
-        cmp ah, N2     ; elenxos an einai megalyteros tou 9
+        cmp al, '9'     ; elenxos an einai megalyteros tou 9
         jae start
         
-        mov dx, ax     ; emfanish arithmoy 
-        mov bx, ax
+        mov dl, al     ; emfanish arithmoy 
         mov ah, 2
         int 21h
         
-        cmp bh, 48
+        cmp al, '0'
         je m2
         
         m2: 
@@ -47,9 +43,9 @@ begin:
             mov ah, 9
             int 21h
        
-       mov dl, 2 
-       mov ah, bh
-       div dl
+       mov ah, 0 
+       mov bl, 2
+       div bl
        
        cmp ah, 0
        je m3
