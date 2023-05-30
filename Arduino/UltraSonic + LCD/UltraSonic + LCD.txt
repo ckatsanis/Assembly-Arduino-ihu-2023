@@ -1,0 +1,64 @@
+// 164814
+//
+
+
+#include <LiquidCrystal.h>
+
+const int trigPin = 10;
+const int echoPin = 9;
+
+int red = 6;
+int blue = 5;
+int green = 3;
+
+float duration, distance;
+
+LiquidCrystal lcd_1(12, 11, 8, 4, 7, 2);
+
+void setup()
+{
+  lcd_1.begin(16, 2); // Set up the number of columns and rows on the LCD.
+
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+  pinMode(red, OUTPUT);
+  pinMode(blue, OUTPUT);
+  pinMode(green, OUTPUT);
+}
+
+void loop()
+{
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  duration = pulseIn(echoPin, HIGH);
+  distance = (duration*.0343)/2;
+  
+  lcd_1.setCursor(0,0);
+  lcd_1.print("Distance: ");
+  lcd_1.setCursor(0,1);
+  lcd_1.print(distance);
+  delay(1000);
+  
+  if (distance <= 100.0) {
+    digitalWrite(red, 0);
+    digitalWrite(blue, 255);
+    digitalWrite(green, 0);
+  } else if (distance <= 200.0) {
+    digitalWrite(red, 0);
+    digitalWrite(blue, 0);
+    digitalWrite(green, 255);
+  } else if (distance <= 300) {
+    digitalWrite(red, 255);
+    digitalWrite(blue, 0);
+    digitalWrite(green, 0);
+  } else {
+    digitalWrite(red, 0);
+    digitalWrite(blue, 0);
+    digitalWrite(green, 0);
+  }
+
+}
+

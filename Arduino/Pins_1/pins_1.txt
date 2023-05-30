@@ -1,0 +1,14 @@
+// 164814 Christos Katsanis
+//
+void setup()
+{
+  pinMode(13, OUTPUT);
+  pinMode(6, OUTPUT);
+}
+
+void loop()
+{
+  digitalWrite(13, HIGH);
+  delay(2000); // Wait for 1000 millisecond(s)
+  analogWrite(6, 153);
+}

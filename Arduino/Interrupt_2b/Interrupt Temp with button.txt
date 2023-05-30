@@ -1,0 +1,66 @@
+// 164814 Christos Katsanis
+//
+
+#define red 11
+#define blue 10
+#define green 9
+#define tmp A3
+#define button 2
+
+int currentmill = 0;
+int millpoint = 2500;
+
+byte state1 = 0;
+byte state2 = 0;
+byte state3 = 0;
+
+void setup()
+{
+  pinMode(red, OUTPUT);
+  pinMode(blue, OUTPUT);
+  pinMode(green, OUTPUT);
+  
+  pinMode(button, INPUT);
+  pinMode(tmp, INPUT);
+  
+  attachInterrupt(digitalPinToInterrupt(button), chgup, RISING);
+  
+  Serial.begin(9600);
+}
+
+void loop() {
+  digitalWrite(red, state1);
+  digitalWrite(blue, state2);
+  digitalWrite(green, state3);
+  
+  if(millis() > currentmill + millpoint){
+     currentmill = millis();
+     chgup();
+  }
+
+}
+    
+void chgup() {
+  float read = analogRead(tmp);
+  float voltage = (read *5.0) / 1024;
+  float temp = (voltage - 0.5) * 100;
+  
+  Serial.print("Temperature: ");
+  Serial.println(temp);
+  
+  if (temp > 25) {
+    state1 = 255;
+    state2 = 0;
+    state3 = 0;
+    
+  } else if (temp < 5) {
+    state1 = 0;
+    state2 = 255;
+    state3 = 0;
+    
+  } else {
+    state1 = 255;
+    state2 = 0;
+    state3 = 255;
+  }  
+}

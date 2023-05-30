@@ -1,0 +1,46 @@
+// 164814 Christos Katsanis
+//
+
+#define red 11
+#define blue 10
+#define green 9
+
+void setup()
+{
+  pinMode(red, OUTPUT);
+  pinMode(blue, OUTPUT);
+  pinMode(green, OUTPUT);
+  
+  Serial.begin(9600);
+}
+
+void loop()
+{  
+  String arg;
+  
+  if (Serial.available() > 0) {
+      arg = Serial.readString();
+  }
+  
+    if (arg == "yellow") {
+
+      analogWrite(red, 255);//r 255 g 255 b 0 
+      analogWrite(green, 255);
+      analogWrite(blue, 0);
+
+    } else if (arg == "purple") {
+
+      analogWrite(red, 168);//r 168 g 0 b 255 
+      analogWrite(green, 0);
+      analogWrite(blue, 255);
+
+    } else if (arg == "reset") {
+
+      analogWrite(red, 0);
+      analogWrite(green, 0);
+      analogWrite(blue, 0);
+
+    } else if (arg != "") {
+      Serial.println("Wrong Parameter");
+    }
+}

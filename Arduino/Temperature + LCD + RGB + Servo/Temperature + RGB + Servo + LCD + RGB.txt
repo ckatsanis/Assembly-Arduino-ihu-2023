@@ -1,0 +1,66 @@
+// 164814
+//
+
+
+#include <LiquidCrystal.h>
+#include <Servo.h>
+
+#define tmpPin A3
+
+const int servoPin = 11;
+
+int red = 6;
+int blue = 5;
+int green = 3;
+
+int pos = 0;
+
+float duration, distance;
+
+LiquidCrystal lcd_1(12, 13, 8, 4, 7, 2);
+
+Servo myservo;
+
+void setup()
+{
+  lcd_1.begin(16, 2); // Set up the number of columns and rows on the LCD.
+
+  pinMode(red, OUTPUT);
+  pinMode(blue, OUTPUT);
+  pinMode(green, OUTPUT);
+  pinMode(tmpPin, INPUT);
+  myservo.attach(servoPin);
+}
+
+void loop()
+{
+  float read = analogRead(tmpPin);
+  float voltage = (read *5.0) / 1024;
+  float tmp = (voltage - 0.5) * 100;
+  
+  lcd_1.setCursor(0,0);
+  lcd_1.print("Temp: ");
+  lcd_1.setCursor(0,1);
+  lcd_1.print(tmp);
+  delay(1000);
+  
+  if (tmp <= 0) {
+    digitalWrite(red, 0);
+    digitalWrite(blue, 255);
+    digitalWrite(green, 0);
+  } else if (tmp <= 25) {
+    digitalWrite(red, 0);
+    digitalWrite(blue, 0);
+    digitalWrite(green, 255);
+  } else if (tmp <= 40) {
+    digitalWrite(red, 255);
+    digitalWrite(blue, 0);
+    digitalWrite(green, 0);
+  } 
+  
+  	pos = map(read, 20, 358, 0, 180);
+    myservo.write(pos); // tellservotogotoposition in variable 'pos'
+    delay(15); // waits 15ms for the servotoreach the position
+
+}
+

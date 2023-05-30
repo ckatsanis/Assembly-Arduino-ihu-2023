@@ -1,0 +1,33 @@
+ 164814 Christos Katsanis
+
+#define led1 13
+#define led2 12
+ time of latest change
+uint64_t lastMillis1 = 0;
+uint64_t lastMillis2 = 0;
+ periods
+int period1 = 1000;
+int period2 = 300;
+ state of the LED
+bool state1 = false;
+bool state2 = false;
+void setup(){
+ pinMode(led1, OUTPUT);
+ pinMode(led2, OUTPUT);
+}
+void loop(){
+ digitalWrite(led1,state1);
+ digitalWrite(led2,state2);
+
+  check for led1
+ if(millis()  lastMillis1 + period1){
+ lastMillis1 = millis();
+ state1 = !state1;
+ }
+
+  check for led2
+ if(millis()  lastMillis2 + period2){
+ lastMillis2 = millis();
+ state2 = !state2;
+ }
+}

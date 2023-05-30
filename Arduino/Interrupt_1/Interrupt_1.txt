@@ -1,0 +1,37 @@
+// 164814 Christos Katsanis
+//
+
+#define red 11
+#define blue 10
+#define green 9
+#define button 2
+
+byte state1 = 255;
+byte state2 = 0;
+byte state3 = 0;
+
+void setup()
+{
+  pinMode(red, OUTPUT);
+  pinMode(blue, OUTPUT);
+  pinMode(green, OUTPUT);
+  
+  attachInterrupt(digitalPinToInterrupt(button), chgup, CHANGE);
+}
+
+void loop() {
+  digitalWrite(red, state1);
+  digitalWrite(blue, state2);
+  digitalWrite(green, state3);
+  
+  if (digitalRead(button) == LOW) {
+    state2 = 0;
+    state1 = 255;
+  }
+
+}
+    
+void chgup() {
+  state2 = 255;
+  state1 = 0;
+}

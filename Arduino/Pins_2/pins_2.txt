@@ -1,0 +1,26 @@
+// 164814 Christos Katsanis
+//
+
+int btstate = 0;
+
+void setup()
+{
+  pinMode(2, INPUT); // button
+  pinMode(13, OUTPUT); // led 1
+  pinMode(6, OUTPUT); // led 2
+}
+
+void loop()
+{
+  analogWrite(6, 153);
+  
+  btstate = digitalRead(2);
+
+  if (btstate == HIGH) {
+    analogWrite(6, 204);
+    digitalWrite(13, HIGH);
+  } else {
+    analogWrite(6, 153);
+    digitalWrite(13, LOW);
+  }
+}
